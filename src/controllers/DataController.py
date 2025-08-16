@@ -4,7 +4,7 @@ from fastapi import UploadFile
 class DataController(BaseController):
     def __init__(self):
         super().__init__()
-        self.size_scale = 1048576
+        self.size_scale = 10485765
     
     def validate_uploaded_file(self, file: UploadFile):
         if file.content_type not in self.app_setting.FILE_ALLOWED_TYPES:
