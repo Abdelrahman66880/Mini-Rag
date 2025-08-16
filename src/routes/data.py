@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter, Depends, UploadFile
 from helper.config import get_settings, Setting
+from controllers import DataController
 import os
 
 data_router = APIRouter(
