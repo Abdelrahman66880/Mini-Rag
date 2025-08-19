@@ -5,6 +5,9 @@ from controllers import DataController, ProjectController, ProcessController
 from .schemes.data import ProcessingRequest
 from models import ResponseSignal
 from models.ProjectModel import ProjectModel
+from models.ChunkModel import ChunkModel
+from models.db_schemes import DataChunk
+from models.ChunkModel import ChunkModel
 import os
 import aiofiles
 import logging
@@ -59,16 +62,25 @@ async def upload_data(request: Request, project_id: str, file: UploadFile,
         content={
             "signal":ResponseSignal.FILE_UPLOAD_SUCCESS.value,
             "file_id":file_id,
-            "project_id": str(project._id)
+            "project_id": str(project.id)
             
         }
     )
     
 @data_router.post("/process/{project_id}")
-async def process_endpoint(project_id: str, process_request: ProcessingRequest):
+async def process_endpoint(request:Request,project_id: str, process_request: ProcessingRequest):
     file_id = process_request.file_id
     chunk_size = process_request.chunk_size
     overlap_Size = process_request.overlap_size
+    do_reset = process_request.do_reset
+    
+    project_model = ProjectModel(
+        db_client=request.app.db_client,
+    )
+    
+    project = await project_model.get_project_or_create_one(
+        project_id=project_id
+    )
     
     process_controller = ProcessController(project_id=project_id)
     file_content = process_controller.get_file_content(file_id=file_id)
@@ -88,5 +100,30 @@ async def process_endpoint(project_id: str, process_request: ProcessingRequest):
                 "signal": ResponseSignal.FILE_PROCESSED_FAILED.value
             }
         )
-    return file_chunks
+
+    file_chunks_record = [
+        DataChunk(
+            chunk_text=chunk.page_content,
+            chunk_metadata=chunk.metadata,
+            chunk_order=i+1,
+            chunk_project_id=project.id,
+        )
+        for i, chunk in enumerate(file_chunks)
+    ]
+    chunk_model = ChunkModel(
+        db_client=request.app.db_client,
+        
+    )
     
+    if do_reset == 1:
+        _ = await chunk_model.delete_chunks_by_project_id(
+            project_id=project.id
+        )
+    
+    no_records = await chunk_model.insert_many_chunks(chunks=file_chunks_record)
+    return JSONResponse(
+        content={
+            "signal": ResponseSignal.PROCESSING_SUCCESS.value,
+            "inserted_chunks": no_records,
+        }
+    )

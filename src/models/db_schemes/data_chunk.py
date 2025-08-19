@@ -12,7 +12,7 @@
 #     class Config:
 #         arbitraty_types_allowed = True
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, Dict, Any
 from bson import ObjectId
 
@@ -31,13 +31,11 @@ from bson import ObjectId
 
 
 class DataChunk(BaseModel):
-    id: Optional[ObjectId]
+    id: Optional[ObjectId] = Field(None, alias="_id")
     chunk_text: str = Field(..., min_length=1)
     chunk_metadata: dict
     chunk_order: int = Field(..., gt=0)
     chunk_project_id: ObjectId
 
-    class Config:
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
