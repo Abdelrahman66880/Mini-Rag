@@ -126,10 +126,6 @@ async def process_endpoint(request:Request,project_id: str, process_request: Pro
            asset_record.id: asset_record.asset_name
         }
     else:
-        # asset_record = await asset_model.get_all_project_assets(
-        #     asset_project_id=project.id,
-        #     asset_type=AssetTypeEnum.FILE.value,
-        # )
         project_files = await asset_model.get_all_project_assets(
             asset_project_id=project.id,
             asset_type=AssetTypeEnum.FILE.value,
