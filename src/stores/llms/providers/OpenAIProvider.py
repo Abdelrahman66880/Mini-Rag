@@ -1,4 +1,4 @@
-from LLMInterface import LLMInterface
+from ..LLMInterface import LLMInterface
 from openai import OpenAI # type: ignore
 from ..LLMEnums import OpenAIEnum
 import logging
