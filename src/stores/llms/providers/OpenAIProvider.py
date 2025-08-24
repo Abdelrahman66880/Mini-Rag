@@ -1,6 +1,6 @@
 from LLMInterface import LLMInterface
 from openai import OpenAI # type: ignore
-from LLMEnums import OpenAIEnum
+from stores.LLMEnums import OpenAIEnum
 import logging
 
 
