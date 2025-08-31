@@ -17,12 +17,14 @@ class Cohereprovider(LLMInsterface):
         
         self.generation_model_id = None
         self.embedding_model_id = None
-        self.embeddding_size = None
+        self.embedding_size = None
         
         
-        self.client = cohere.client(
+        self.client = cohere.Client(
             api_key = self.api_key
         )
+        
+        self.enum = CohereEnum
         
         self.logger = logging.getLogger(__name__)
         
@@ -30,9 +32,9 @@ class Cohereprovider(LLMInsterface):
     def set_generation_model(self, model_id: str):
         self.generation_model_id = model_id
         
-    def set_embedding_model(self, model_id: str, embeddding_size):
+    def set_embedding_model(self, model_id: str, embedding_size):
         self.embedding_model_id = model_id
-        self.embeddding_size = embeddding_size
+        self.embedding_size = embedding_size
     
     def process_text(self, text:str):
         return text[:self.default_input_max_characters].strip()
@@ -80,8 +82,9 @@ class Cohereprovider(LLMInsterface):
         
         response = self.client.embed(
             model = self.embedding_model_id,
-            text = [self.process_text(text)],
-            embedding_type=['float'],
+            texts = [self.process_text(text)],
+            embedding_types=['float'],
+            input_type=input_type
             
             
         )

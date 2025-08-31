@@ -18,12 +18,13 @@ class OpenAIprovider(LLMInsterface):
         
         self.generation_model_id = None
         self.embedding_model_id = None
-        self.embeddding_size = None
+        self.embedding_size = None
         
         self.client = OpenAI(
             api_key = self.api_key,
-            api_url = self.api_url,
+            base_url= self.api_url if self.api_url and len(self.api_url) else None
         )
+        self.enums = OpenAIEnum
         self.logger = logging.getLogger(__name__)
         
     
@@ -31,9 +32,9 @@ class OpenAIprovider(LLMInsterface):
     def set_generation_model(self, model_id: str):
         self.generation_model_id = model_id
         
-    def set_embedding_model(self, model_id: str, embeddding_size):
+    def set_embedding_model(self, model_id: str, embedding_size):
         self.embedding_model_id = model_id
-        self.embeddding_size = embeddding_size
+        self.embedding_size = embedding_size
         
     def process_text(self, text:str):
         return text[:self.default_input_max_characters].strip()
@@ -63,7 +64,7 @@ class OpenAIprovider(LLMInsterface):
         if not respone or not respone.choices or len(respone.choices) == 0 or not respone.choices[0].message:
             self.logger.error("Error while generating text with OpenAI")
             return None
-        return respone.choices[0].message["content"]
+        return respone.choices[0].message.content
         
         
     
