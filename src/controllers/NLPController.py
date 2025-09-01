@@ -22,12 +22,21 @@ class NLPController(BaseController):
     
     async def get_vector_db_collection_info(self, project: Project):
         collection_name = self.create_collection_name(project_id=project.project_id)
-        collection_info = await self.vectordb_client.get_collection_info(collection_name=collection_name)
+        # collection_info = self.vectordb_client.get_collection_info(collection_name=collection_name)
+        collection = self.vectordb_client[collection_name]
+        
+        document_count = await collection.count_documents({})
+        
+        collection_info = {
+            "collection_name": collection_name,
+            "document_count": document_count,
+            # Add more fields from collection_stats if needed
+        }
         return json.loads(
             json.dumps(collection_info, default=lambda x: x.__dict__)
         )
     
-    async def index_into_vector_db(self, project: Project, chunks: List[DataChunk],chunks_ids: List[int] ,do_reset: bool = False):
+    def index_into_vector_db(self, project: Project, chunks: List[DataChunk],chunks_ids: List[int] ,do_reset: bool = False):
         collection_name = self.create_collection_name(project_id=project.project_id)
         
         #MANAGE ITEM
@@ -55,11 +64,11 @@ class NLPController(BaseController):
         #     vectors=vectors,
         #     record_ids=chunks_ids
         # )
-        result = await collection.insert_many(chunks)
+        result = collection.insert_many(chunks)
         
         return True
 
-    def search_vector_db_collection(self, project: Project, text: str, limit: int = 10):
+    async def search_vector_db_collection(self, project: Project, text: str, limit: int = 10):
         collection_name = self.create_collection_name(project_id=project.project_id)
         
         vector = self.embedding_client.embed_text(
@@ -70,7 +79,7 @@ class NLPController(BaseController):
         if not vector or len(vector) == 0:
             return False
         
-        results = self.vectordb_client.search_by_vector(
+        results =await self.vectordb_client.search_by_vector(
             collection_name=collection_name,
             vector=vector,
             limit=limit
@@ -82,21 +91,21 @@ class NLPController(BaseController):
         return results
     
     
-    def answer_rag_question(self, project: Project, query: str, limit: int = 10):
+    async def answer_rag_question(self, project: Project, query: str, limit: int = 10):
         retrieved_documents = self.search_vector_db_collection(
             project=project,
             text=query,
             limit=limit
         )
     
-        if not retrieved_documents or len(retrieved_documents) == 0:
+        if not retrieved_documents:
             return None
 
         
         ###============================================================
         #=================Construct The System Prompt==================
         
-        system_prompt = self.template_parser.get("rag", "system_prompt")
+        system_prompt = await self.template_parser.get("rag", "system_prompt")
         document_prompts = "\n".join([
             self.template_parser.get("rag", "document_parser", {
                 "doc_num": idx,
@@ -116,7 +125,7 @@ class NLPController(BaseController):
         
         full_prompt = "\n\n".join([document_prompts, footer_prompt])
         
-        answer = self.generation_client.generate_text(
+        answer = await self.generation_client.generate_text(
             prompt=full_prompt,
             chat_history=chat_history
         )
