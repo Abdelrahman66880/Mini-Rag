@@ -20,5 +20,5 @@ class CohereEnum(Enum):
     
     
 class DocumentTypeEnum(Enum):
-    Document = "document"
+    DOCUMENT = "document"
     QUERY = "query"

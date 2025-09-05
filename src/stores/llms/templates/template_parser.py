@@ -1,4 +1,6 @@
 import os
+import importlib
+
 
 class TemplateParser:
     def __init__(self, language: str = None, default_language='en'):
@@ -31,8 +33,7 @@ class TemplateParser:
         if not os.path.exists(group_path):
             return None
 
-        module = __import__(f"stores.llm.templates.locales.{targeted_language}.{group}", fromlist=[group])
-
+        module = importlib.import_module(f"stores.llms.templates.locales.{targeted_language}.{group}")
         
         if not module:
             return None
