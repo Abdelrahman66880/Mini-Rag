@@ -1,0 +1,27 @@
+Of course. Here is a condensed and streamlined version of the text, focusing on the most significant aspects of Tesla's life and work.
+
+### Nikola Tesla
+
+Nikola Tesla (10 July 1856 – 7 January 1943) was a Serbian-American inventor, electrical engineer, mechanical engineer, and futurist. He is best known for his revolutionary contributions to the design of the modern alternating current (AC) electricity supply system.
+
+**Early Life and Education**
+Tesla was born in Smiljan, Austrian Empire (modern-day Croatia). He studied engineering and physics in the 1870s at the Technical University in Graz, Austria, and later at the University of Prague. He displayed an incredible aptitude for mathematics and an early fascination with electricity.
+
+**Working for Edison and AC Development**
+In 1884, Tesla immigrated to the United States and began working for Thomas Edison at his Machine Works in New York City. The two inventors soon parted ways due to differing views on electrical current; Edison championed direct current (DC), while Tesla advocated for the superior alternating current (AC).
+
+Striking out on his own, Tesla developed the AC induction motor and related polyphase AC patents in 1887. This motor was simple, durable, and efficient, solving key problems of earlier designs. His work caught the attention of industrialist George Westinghouse, who licensed Tesla's patents in 1888. This partnership was fundamental in winning the "War of the Currents" against Edison's DC system, establishing AC as the global standard for electrical power transmission.
+
+**Innovations and Showmanship**
+Tesla was a prolific inventor and a master showman. He established laboratories in New York where he conducted groundbreaking experiments. His inventions and demonstrations included:
+*   **The Tesla Coil:** A high-voltage transformer circuit that became essential for radio technology and is famous for producing spectacular bolts of lightning.
+*   **Wireless Lighting:** He publicly demonstrated lighting gas-discharge lamps wirelessly using high-frequency, high-voltage electricity.
+*   **Radio Control:** In 1898, he demonstrated a wirelessly controlled boat, an early precursor to robotics and radio control.
+
+**Wireless Power and Wardenclyffe Tower**
+A lifelong dream of Tesla's was the wireless transmission of energy. Throughout the 1890s, he experimented with this idea, and in 1901 he began construction on Wardenclyffe Tower on Long Island. This large transmission tower was intended to provide free wireless communication and power across the Atlantic. However, he lost funding from investor J.P. Morgan before it could be completed, and the project was abandoned.
+
+**Later Years and Legacy**
+After Wardenclyffe, Tesla continued to invent but with less commercial success. His ideas became more speculative, including designs for a bladeless turbine and his theoretical "Teleforce" particle beam weapon (often sensationalized as a "death ray"). He lived his final years in a series of New York hotels, often in financial difficulty, while maintaining his unique personal habits.
+
+Though he died with much of his work overshadowed, Tesla's legacy underwent a major resurgence in the late 20th century. In 1960, the international unit of magnetic flux density was named the "tesla" (T) in his honor. He is now celebrated as a visionary genius whose inventions fundamentally shaped the modern electrical world.
